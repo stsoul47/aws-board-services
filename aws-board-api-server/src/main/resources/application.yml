@@ -18,3 +18,6 @@ spring:
       ddl-auto: create
       use-new-id-generator-mappings: false
     show-sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
