@@ -19,6 +19,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("com.jslee.awsboardapiserver.project.controller"))
                 .paths(PathSelectors.any())
                 .build()
+                .useDefaultResponseMessages(false)
                 .apiInfo(apiInfo());
     }
 
