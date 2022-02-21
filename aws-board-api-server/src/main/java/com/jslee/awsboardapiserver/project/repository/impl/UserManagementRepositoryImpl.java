@@ -7,8 +7,10 @@ import com.jslee.awsboardapiserver.project.repository.UserManagementRepositoryCu
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +33,7 @@ public class UserManagementRepositoryImpl implements UserManagementRepositoryCus
     @Override
     public Page<DUser> findAll(Pageable pageable, UserManagementQueryDTO queryDTO) {
         QueryResults<DUser> userManagementQueryResults = queryFactory.selectFrom(dUser)
-                //.where(eqGatewayType(queryDTO.getGatewayType()), eqEventSource(queryDTO.getGatewayType())/*, eqStatus(queryDTO.getStatus())*/)
+                .where(eqName(queryDTO.getUserName()))
                 .orderBy(
                         getOrderSpecifier(pageable.getSort()).stream().toArray(OrderSpecifier[]::new)
                 )
@@ -40,6 +42,13 @@ public class UserManagementRepositoryImpl implements UserManagementRepositoryCus
                 .fetchResults();
 
         return new PageImpl<>(userManagementQueryResults.getResults(), pageable, userManagementQueryResults.getTotal());
+    }
+
+    private BooleanExpression eqName(String name) {
+        if(StringUtils.isEmpty(name)) {
+            return null;
+        }
+        return dUser.userName.eq(name);
     }
 
 
