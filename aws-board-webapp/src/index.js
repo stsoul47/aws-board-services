@@ -4,10 +4,25 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import {Layout} from "antd";
+import './test.css';
+
+const { Header, Footer, Sider, Content } = Layout;
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <>
+    <Layout>
+      <Header>Header</Header>
+      <Content>
+          <React.StrictMode>
+          <App />
+          </React.StrictMode>
+      </Content>
+      <Footer>Footer</Footer>
+    </Layout>
+
+  </>
+  ,
   document.getElementById('root')
 );
 
